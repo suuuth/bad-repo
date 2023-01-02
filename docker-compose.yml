@@ -1,0 +1,49 @@
+version: '3.7'
+services:
+  nest:
+    build:
+      context: .
+      target: development
+      dockerfile: ./Dockerfile.nest.local
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npm run start:debug
+    labels:
+      - traefik.port=3000
+      - traefik.frontend.rule=Host:badsite.com
+      - traefik.frontend.redirect.regex=^https?://badsite.com/(.*)
+      - traefik.frontend.redirect.replacement=https://badsite.com/$${1}
+      - "traefik.backend=nginx"
+      - "traefik.docker.network=traefik"
+      - "traefik.expose=true"
+    networks:
+      - traefik
+    depends_on:
+      - redis
+      - postgres
+  redis:
+    image: redis:latest
+    networks:
+      - traefik
+  # psql -U postgres
+  postgres:
+    image: postgres:latest
+    networks:
+      - traefik
+    environment:
+      POSTGRES_PASSWORD: Password123!
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+      PG_DATA: /var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+networks:
+  traefik:
+    external: true
+    name: traefik
+volumes:
+  pgdata:
+    driver: local
