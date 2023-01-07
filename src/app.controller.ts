@@ -3,10 +3,14 @@ import { Controller, Request, Post, UseGuards, Get, Render } from '@nestjs/commo
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { LocalAuthGuard } from './auth/local-auth.guard';
 import { AuthService } from './auth/auth.service';
+import { AppService } from "./app.service";
 
 @Controller()
 export class AppController {
-  constructor(private authService: AuthService) {}
+  constructor(
+      private authService: AuthService,
+      private appService: AppService
+  ) {}
 
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
@@ -20,9 +24,8 @@ export class AppController {
     return req.user;
   }
 
-  @Get()
-  @Render('index')
-  getHello() {
-    return { message: 'Hello world!' };
+  @Get('protected')
+  getHello(): string {
+    return this.appService.getHello();
   }
 }

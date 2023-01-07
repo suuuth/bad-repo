@@ -26,8 +26,8 @@ services:
     image: redis:latest
     networks:
       - traefik
-  # psql -U postgres
   postgres:
+    # psql -U postgres
     image: postgres:latest
     networks:
       - traefik
