@@ -19,7 +19,7 @@
 import axios from 'axios'
 export default {
   name: "LoginView",
-  data: function () {
+  data () {
     return {
       formData: {
         username: '',
@@ -28,8 +28,9 @@ export default {
     }
   },
   methods: {
-    login: () => {
-      axios.post(`${window.location.origin}/login`, this.formData).then(response => {
+    login () {
+      console.log(this)
+      axios.post(`${window.location.origin}/api/login`, this.formData).then(response => {
         console.log(response)
       }).catch(error => {
         console.error(error)
