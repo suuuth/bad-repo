@@ -2,6 +2,9 @@
 /dist
 /node_modules
 /database
+/client/.DS_Store
+/client/node_modules
+/client/dist
 
 # Logs
 logs
@@ -11,6 +14,10 @@ pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
+/client/npm-debug.log*
+/client/yarn-debug.log*
+/client/yarn-error.log*
+/client/pnpm-debug.log*
 
 # OS
 .DS_Store
@@ -27,6 +34,13 @@ lerna-debug.log*
 *.launch
 .settings/
 *.sublime-workspace
+/client/.idea
+/client/.vscode
+/client/*.suo
+/client/*.ntvs*
+/client/*.njsproj
+/client/*.sln
+/client/*.sw?
 
 # IDE - VSCode
 .vscode/*

@@ -4,7 +4,8 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-// import { join } from 'path';
+import { ServeStaticModule } from "@nestjs/serve-static";
+import { join } from 'path';
 import config from '../ormconfig';
 
 @Module({
@@ -12,8 +13,12 @@ import config from '../ormconfig';
     UsersModule,
     AuthModule,
     TypeOrmModule.forRoot(config),
+      ServeStaticModule.forRoot({
+        rootPath: join(__dirname, '../..', 'client/dist'),
+      }),
   ],
   controllers: [AppController],
   providers: [AppService],
 })
+
 export class AppModule {}
