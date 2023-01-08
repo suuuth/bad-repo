@@ -1,14 +1,19 @@
 <template>
   <div class="UserProfile">
     UserProfile
+    <h1>Hello {{ user.name }}</h1>
   </div>
 </template>
 
 <script>
 export default {
   name: "UserProfile",
-  created: () => {
-    //!isAuthenticated() && this.$router.push('/')
+  data () {
+    return {
+      user: {
+        name: ''
+      }
+    }
   }
 }
 </script>
