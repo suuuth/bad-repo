@@ -7,6 +7,6 @@ import axios from 'axios';
 axios.defaults.withCredentials = true
 axios.defaults.baseURL = 'https://badsite.com/';
 
-const app = createApp(App).use(router)
+const app = createApp(App).use(router).use(router).use(router).use(router)
 app.use( store, router )
 app.mount('#app')
