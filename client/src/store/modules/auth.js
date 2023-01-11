@@ -1,17 +1,21 @@
-import axios from 'axios';
+import axios from 'axios'
+import { isProxy, toRaw } from 'vue'
+import router from '@/router'
 
+const api = window.location.origin + '/api'
 const state = {
-  user: null
+  user: null,
+  access_token: null
 };
 
 const getters = {
-  isAuthenticated: state => !!state.user,
+  isAuthenticated: state => { console.error('isAuthenticated state: ', isProxy(state) ? toRaw(state) : state); return !!state.user } ,
   StateUser: state => state.user,
 };
 
 const actions = {
   async Register({dispatch}, form) {
-    await axios.post('register', form)
+    await axios.post(`${api}/register`, form)
     let UserForm = new FormData()
     UserForm.append('username', form.username)
     UserForm.append('password', form.password)
@@ -19,13 +23,18 @@ const actions = {
   },
 
   async LogIn({ commit }, user) {
-    await axios.post('login', user)
-    return await commit('setUser', user.get('username'))
+    user = isProxy(user) ? toRaw(user) : user
+    axios.post(`${api}/login`, user).then(response => {
+      console.log(response.data.user)
+      commit('setUser', response.data.user)
+      commit('setToken', response.data.access_token)
+      router.push('/profile')
+    }).catch(err => console.error(err))
   },
 
   async CreateMessage({ dispatch }, post) {
     await axios.post('post', post)
-    await dispatch('GetPosts')
+    await dispatch('GetMessages')
   },
 
   async GetMessages({ commit }){
@@ -34,8 +43,7 @@ const actions = {
   },
 
   async LogOut({ commit }){
-    let user = null
-    commit('logout', user)
+    commit('logOut')
   }
 };
 
@@ -43,9 +51,12 @@ const mutations = {
   setUser(state, username){
     state.user = username
   },
-  logOut(state){
+  setToken(state, access_token) {
+    state.access_token = access_token
+  },
+  logOut(state) {
     state.user = null
-    state.posts = null
+    state.access_token = null
   }
 };
 
