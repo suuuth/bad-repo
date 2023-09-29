@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { join } from 'path';
+import { AppGateway } from './app/app.gateway';
 import config from '../ormconfig';
 
 @Module({
@@ -18,7 +19,7 @@ import config from '../ormconfig';
       }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AppGateway],
 })
 
 export class AppModule {}

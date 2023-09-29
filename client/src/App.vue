@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import NavBar from "./NavBar.vue";
+import NavBar from "./NavBar.vue"
 export default {
   components: {
     NavBar
@@ -13,6 +13,10 @@ export default {
 </script>
 
 <style>
+html, body {
+  min-height: 100vh;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

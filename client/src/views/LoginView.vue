@@ -26,6 +26,15 @@ export default {
       }
     }
   },
+  mounted () {
+    let input = document.querySelector('[name="username"]')
+
+    input.focus()
+
+    document.querySelector('body').addEventListener('click', event => {
+      !document.querySelector('#app').contains(event.target) && input.focus()
+    })
+  },
   methods: {
     login () {
       this.$store.dispatch('LogIn', this.formData)
